@@ -3,10 +3,13 @@ import axios from 'axios';
 import { Button, Modal, FormGroup, ControlLabel, FormControl, Alert } from 'react-bootstrap/lib';
 import Urls from '../util/Urls.js';
 
+var PythonShell = require('python-shell');
+var pyshell = new PythonShell('../scripts/ha5000.py');
+
 class CreatePostButton extends Component {
   constructor(props) {
     super(props);
-    this.state = { showModal: false, author: '', message: '', isLoading: false, errors: [] };
+    this.state = { showModal: false, sentence: '', structure: '', isLoading: false, errors: [] };
   }
 
   close() {
@@ -25,29 +28,47 @@ class CreatePostButton extends Component {
 
   checkInput() {
     const errors = [];
-    if (this.state.author.length === 0) {
-      errors.push('Author cannot be blank.');
+    if (this.state.sentence.length === 0) {
+      errors.push('Sentence cannot be blank.');
     }
 
-    if (this.state.message.length === 0) {
-      errors.push('Message cannot be blank.');
+    if (this.state.structure.length === 0) {
+      errors.push('Structure cannot be blank.');
     }
 
     return errors;
   }
 
+  generateTree(input) {
+    var destination = ''
+    pyshell.send(input)
+
+    pyshell.on('message', function(message) {
+      console.log(message);
+      destination = message;
+    });
+
+    pyshell.end(function (err) {
+      if(err) throw err;
+      console.log('finished');
+    });
+
+    return destination;
+  }
+
   createPost() {
-    const { author, message } = this.state;
+    const { sentence, structure } = this.state;
+    const tree = this.generateTree(structure);
     this.setState({ isLoading: true, errors: [] });
     const errors = this.checkInput();
     if (errors.length === 0) {
       axios.post(`${Urls.api}/posts`, {
-        Author: author,
-        Message: message,
+        Sentence: sentence,
+        Structure: tree,
       })
         .then((res) => {
           this.props.addPost(res.data);
-          this.setState({ isLoading: false, author: '', message: '', showModal: false, errors: [] });
+          this.setState({ isLoading: false, sentence: '', structure: '', showModal: false, errors: [] });
         },
       )
         .catch((err) => {
@@ -79,27 +100,27 @@ class CreatePostButton extends Component {
         <Button bsStyle="primary" onClick={this.open.bind(this)}>Create Post</Button>
         <Modal show={showModal} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title>Create Post</Modal.Title>
+            <Modal.Title>Create Post, yo</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.makeModalErrors()}
             <form>
               <FormGroup>
-                <ControlLabel>Author</ControlLabel>
+                <ControlLabel>Sentence</ControlLabel>
                 <FormControl
                   type="text"
-                  value={this.state.author}
-                  placeholder="Enter author name to display"
-                  onChange={this.handleChange.bind(this, 'author')}
+                  value={this.state.sentence}
+                  placeholder="Enter sentence to analyze, yo"
+                  onChange={this.handleChange.bind(this, 'sentence')}
                 />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Message</ControlLabel>
+                <ControlLabel>Structure</ControlLabel>
                 <FormControl
                   type="text"
-                  value={this.state.message}
-                  placeholder="Enter message to display"
-                  onChange={this.handleChange.bind(this, 'message')}
+                  value={this.state.structure}
+                  placeholder="Enter structure to display"
+                  onChange={this.handleChange.bind(this, 'structure')}
                 />
               </FormGroup>
             </form>

@@ -46,8 +46,8 @@ class PostBoard extends Component {
         <Table striped bordered condensed hover>
           <thead>
             <tr>
-              <th>Author</th>
-              <th>Message</th>
+              <th>Sentence</th>
+              <th>Structure</th>
               <th />
             </tr>
           </thead>

@@ -70,7 +70,7 @@ class App extends Component {
       <div>
         <TopNavbar />
         <Panel style={panelStyle} bsStyle="primary">
-          <h2>Welcome to Your GoDoRP App</h2>
+          <h2>It is working! Finally!</h2>
           <CreatePostButton addPost={this.addPost.bind(this)} />
           <PostBoard posts={posts} removePost={this.removePost.bind(this)} />
         </Panel>
