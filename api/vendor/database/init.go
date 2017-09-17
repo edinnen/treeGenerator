@@ -15,6 +15,16 @@ type Post struct {
 	Structure string
 }
 
+//Function to modify Post struct so that generated tree path can be added
+// Needs a pointer to modify struct
+func (f *Post) SetStructurePath(Structure string) {
+	f.Structure = Structure
+}
+
+func (f Post) GetSentence() string {
+	return f.Sentence
+}
+
 func addDatabase(dbname string) error {
 	// create database with dbname, won't do anything if db already exists
 	DB.Exec("CREATE DATABASE " + dbname)

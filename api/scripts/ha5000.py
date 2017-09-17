@@ -1,5 +1,6 @@
 import os
 import nltk
+import sys
 from nltk.chunk import *
 from nltk.chunk.util import *
 from nltk.chunk.regexp import *
@@ -12,13 +13,18 @@ from pylatex import Document, Section, UnsafeCommand
 from pylatex.utils import NoEscape
 import uuid
 from subprocess import call
+import base64
 
-jar = '../jars/stanford-postagger.jar'
-model = '../jars/english-left3words-distsim.tagger'
+jar = './jars/stanford-postagger.jar'
+model = './jars/english-left3words-distsim.tagger'
 
 pos_tagger = StanfordPOSTagger(model, jar, encoding='utf8')
 
-userin = raw_input("Feed me language!: ")
+#userin = raw_input("Feed me language!: ")
+if len(sys.argv) < 2:
+    print("Error: Please specify a sentence")
+else:
+    userin = str(sys.argv[1])
 
 sentence = pos_tagger.tag(word_tokenize(str(userin)))
 
@@ -39,16 +45,20 @@ tree = parser.parse(sentence)
 doc = Document()
 doc.packages.append(Package('tikz'))
 doc.packages.append(Package(NoEscape('tikz-qtree')))
+doc.append(NoEscape('\\pagenumbering{gobble}'))
 doc.append(NoEscape('\\begin{tikzpicture}[scale=0.9, sibling distance=1pt, level distance=40pt]'))
 doc.append(NoEscape(' '.join(str(tree.pformat_latex_qtree()).split())))
 doc.append(NoEscape('\end{tikzpicture}'))
 unique_name = str(uuid.uuid4())
-doc.generate_pdf('../../public/structures/' + unique_name)
-location = '../../public/structures/' + unique_name + '.pdf'
-destination = '../../public/structures/' + unique_name + '.png'
-call(["convert", "-density", "96", "-quality", "85", location, destination])
+doc.generate_pdf('structures/' + unique_name)
+location = 'structures/' + unique_name + '.pdf'
+destination = 'structures/' + unique_name + '.png'
+call(["convert", "-trim", "+repage", "-density", "96", "-quality", "85", location, destination])
 call(["rm", location])
-print(destination)
+#print(destination)
+print(base64.b64encode(open(destination, "rb").read()))
+call(["rm", destination])
+
 #print("\n")
 #print(str(tree.pformat_latex_qtree()).split())
 #print("\n")

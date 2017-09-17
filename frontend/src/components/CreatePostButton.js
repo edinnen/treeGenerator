@@ -3,9 +3,6 @@ import axios from 'axios';
 import { Button, Modal, FormGroup, ControlLabel, FormControl, Alert } from 'react-bootstrap/lib';
 import Urls from '../util/Urls.js';
 
-var PythonShell = require('python-shell');
-var pyshell = new PythonShell('../scripts/ha5000.py');
-
 class CreatePostButton extends Component {
   constructor(props) {
     super(props);
@@ -39,32 +36,14 @@ class CreatePostButton extends Component {
     return errors;
   }
 
-  generateTree(input) {
-    var destination = ''
-    pyshell.send(input)
-
-    pyshell.on('message', function(message) {
-      console.log(message);
-      destination = message;
-    });
-
-    pyshell.end(function (err) {
-      if(err) throw err;
-      console.log('finished');
-    });
-
-    return destination;
-  }
-
   createPost() {
     const { sentence, structure } = this.state;
-    const tree = this.generateTree(structure);
     this.setState({ isLoading: true, errors: [] });
     const errors = this.checkInput();
     if (errors.length === 0) {
       axios.post(`${Urls.api}/posts`, {
         Sentence: sentence,
-        Structure: tree,
+        Structure: structure,
       })
         .then((res) => {
           this.props.addPost(res.data);

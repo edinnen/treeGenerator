@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 )
 
 // CRUD Route Handlers
@@ -19,6 +20,14 @@ func createPostHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 		http.Error(w, err.Error(), 400)
 		return
 	}
+
+	cmd := exec.Command("python", "scripts/ha5000.py", newPost.GetSentence())
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(err)
+	}
+	htmlImage := "data:image/png;base64," + string(out)
+	newPost.SetStructurePath(htmlImage)
 
 	database.DB.Create(&newPost)
 	res, err := json.Marshal(newPost)
