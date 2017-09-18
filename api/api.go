@@ -21,7 +21,7 @@ func createPostHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 		return
 	}
 
-	log.Println("Starning Python script...")
+	log.Println("Starting Python script...")
 	cmd := exec.Command("python", "scripts/ha5000.py", newPost.GetSentence())
 	out, err := cmd.CombinedOutput()
 	if err != nil {
