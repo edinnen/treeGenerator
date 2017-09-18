@@ -37,7 +37,7 @@ class CreatePostButton extends Component {
   }
 
   createPost() {
-    const { sentence, structure } = this.state;
+    const { sentence } = this.state;
     this.setState({ isLoading: true, errors: [] });
     const errors = this.checkInput();
     if (errors.length === 0) {
