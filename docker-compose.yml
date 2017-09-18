@@ -19,7 +19,7 @@ services:
     volumes:
       - ./api:/go/src/github.com/user/GoDoRP/api
     ports:
-      - "5000:8080"
+      - "443:8080"
     links:
       - db
 
