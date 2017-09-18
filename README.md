@@ -10,7 +10,7 @@ This app allows you to submit a sentence for analysis into a linguistic syntax t
 * Docker for development and production
 * Trees are generated with Python. Python takes in a string, uses NLTK to tokenize and analyze, applies a custom RegEx parser, generates a LaTeX file, creates a .png, and returns a base64 encoded string
 
-## To Running
+## To Run
 * Requires [docker-compose](https://docs.docker.com/compose/install/)
 
 ```bash
