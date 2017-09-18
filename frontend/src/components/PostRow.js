@@ -68,7 +68,6 @@ class PostRow extends Component {
         <td>{post.Sentence}</td>
         <td><img src={post.Structure} alt="Tree structure"/></td>
         <td>
-          {this.makeEditButton()}
           {this.makeDeleteButton()}
         </td>
       </tr>

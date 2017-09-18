@@ -64,13 +64,14 @@ class App extends Component {
       width,
       margin: 'auto',
       marginTop: '65px',
+      border: 'none',
     };
 
     return (
       <div>
         <TopNavbar />
         <Panel style={panelStyle} bsStyle="primary">
-          <h2>It is working! Finally!</h2>
+          <h2>Welcome to the Linguistic Syntax Tree Generator!</h2>
           <CreatePostButton addPost={this.addPost.bind(this)} />
           <PostBoard posts={posts} removePost={this.removePost.bind(this)} />
         </Panel>

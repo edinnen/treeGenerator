@@ -29,9 +29,9 @@ class CreatePostButton extends Component {
       errors.push('Sentence cannot be blank.');
     }
 
-    if (this.state.structure.length === 0) {
-      errors.push('Structure cannot be blank.');
-    }
+    // if (this.state.structure.length === 0) {
+    //   errors.push('Structure cannot be blank.');
+    // }
 
     return errors;
   }
@@ -43,7 +43,7 @@ class CreatePostButton extends Component {
     if (errors.length === 0) {
       axios.post(`${Urls.api}/posts`, {
         Sentence: sentence,
-        Structure: structure,
+        Structure: 'placeholder this gets replaced in the api',
       })
         .then((res) => {
           this.props.addPost(res.data);
@@ -76,10 +76,10 @@ class CreatePostButton extends Component {
     const { showModal, isLoading } = this.state;
     return (
       <div>
-        <Button bsStyle="primary" onClick={this.open.bind(this)}>Create Post</Button>
+        <Button bsStyle="primary" onClick={this.open.bind(this)}>Analyze a Sentence!</Button>
         <Modal show={showModal} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title>Create Post, yo</Modal.Title>
+            <Modal.Title>Analyze a Sentence!</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.makeModalErrors()}
@@ -89,17 +89,8 @@ class CreatePostButton extends Component {
                 <FormControl
                   type="text"
                   value={this.state.sentence}
-                  placeholder="Enter sentence to analyze, yo"
+                  placeholder="Enter sentence to analyze"
                   onChange={this.handleChange.bind(this, 'sentence')}
-                />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Structure</ControlLabel>
-                <FormControl
-                  type="text"
-                  value={this.state.structure}
-                  placeholder="Enter structure to display"
-                  onChange={this.handleChange.bind(this, 'structure')}
                 />
               </FormGroup>
             </form>

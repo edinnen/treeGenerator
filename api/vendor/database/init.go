@@ -59,8 +59,5 @@ func Init() (*gorm.DB, error) {
 		DB.CreateTable(&Post{})
 	}
 
-	testPost := Post{Sentence: "Dorper", Structure: "GoDoRP is Dope"}
-	DB.Create(&testPost)
-
 	return DB, err
 }

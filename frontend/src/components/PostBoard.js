@@ -27,7 +27,7 @@ class PostBoard extends Component {
         addError={this.addError.bind(this)}
         clearErrors={this.clearErrors.bind(this)}
       />,
-    );
+    ).reverse();
   }
 
   makeError() {
