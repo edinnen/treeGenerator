@@ -1,5 +1,4 @@
-apiVersion: apps/1.0
-kind: Deployment
+version: '2'
 services:
   db:
     build: ./db
