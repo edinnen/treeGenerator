@@ -27,8 +27,8 @@ func createPostHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	if err != nil {
 		fmt.Println(err)
 	}
-	log,Println("Completed Python script!")
-	
+	log.Println("Completed Python script!")
+
 	htmlImage := "data:image/png;base64," + string(out)
 	newPost.SetStructurePath(htmlImage)
 
@@ -118,7 +118,7 @@ func corsHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // util
 func getFrontendUrl() string {
 	if os.Getenv("APP_ENV") == "production" {
-		return "http://35.202.146.221" // change this to production domain
+		return "http://35.197.1.229" // change this to production domain
 	} else {
 		return "http://localhost:3000"
 	}

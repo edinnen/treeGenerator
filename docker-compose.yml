@@ -1,4 +1,5 @@
-version: '2'
+apiVersion: apps/1.0
+kind: Deployment
 services:
   db:
     build: ./db
@@ -31,4 +32,4 @@ services:
     volumes:
       - ./frontend/src:/frontend/src
     ports:
-      - "3000:3000"
+      - "80:3000"
