@@ -20,7 +20,6 @@ model = './jars/english-left3words-distsim.tagger'
 
 pos_tagger = StanfordPOSTagger(model, jar, encoding='utf8')
 
-userin = raw_input("Feed me language!: ")
 if len(sys.argv) < 2:
     print("Error: Please specify a sentence")
 else:
@@ -54,8 +53,8 @@ doc.append(NoEscape(' '.join(str(tree.pformat_latex_qtree()).split())))
 doc.append(NoEscape('\end{tikzpicture}'))
 unique_name = str(uuid.uuid4())
 doc.generate_pdf('api/structures/' + unique_name)
-location = 'api/structures/' + unique_name + '.pdf'
-destination = 'api/structures/' + unique_name + '.png'
+location = 'structures/' + unique_name + '.pdf'
+destination = 'structures/' + unique_name + '.png'
 call(["convert", "-trim", "+repage", "-density", "96", "-quality", "85", location, destination])
 call(["rm", location])
 #print(destination)
