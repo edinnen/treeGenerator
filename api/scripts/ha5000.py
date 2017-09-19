@@ -20,7 +20,7 @@ model = './jars/english-left3words-distsim.tagger'
 
 pos_tagger = StanfordPOSTagger(model, jar, encoding='utf8')
 
-#userin = raw_input("Feed me language!: ")
+userin = raw_input("Feed me language!: ")
 if len(sys.argv) < 2:
     print("Error: Please specify a sentence")
 else:
@@ -37,7 +37,10 @@ D: {<DT>*<PRP>*} #Det -> 'DT'
 NP: {<ADJP>?<N>} #NP -> Adj N
 D\': {<D>} #D' -> 'D'
 DP: {<D\'>*<NP>?} #DP -> Det NP | Det
-VP: {<V><DP>*<ADJP>*} #VP -> V DP
+P: {(<TO>|<IN>)<PP>*}
+P\': {(<P\'>(<PP>)*)|(<P>(<DP>)*)|(<P>(<VP>)*)}
+PP: {(<P\'>)<DP>*<VP>*}
+VP: {<V><DP>*<ADJP>*<PP>*} #VP -> V DP
 ''')
 
 tree = parser.parse(sentence)
@@ -50,9 +53,9 @@ doc.append(NoEscape('\\begin{tikzpicture}[scale=0.9, sibling distance=1pt, level
 doc.append(NoEscape(' '.join(str(tree.pformat_latex_qtree()).split())))
 doc.append(NoEscape('\end{tikzpicture}'))
 unique_name = str(uuid.uuid4())
-doc.generate_pdf('structures/' + unique_name)
-location = 'structures/' + unique_name + '.pdf'
-destination = 'structures/' + unique_name + '.png'
+doc.generate_pdf('api/structures/' + unique_name)
+location = 'api/structures/' + unique_name + '.pdf'
+destination = 'api/structures/' + unique_name + '.png'
 call(["convert", "-trim", "+repage", "-density", "96", "-quality", "85", location, destination])
 call(["rm", location])
 #print(destination)
