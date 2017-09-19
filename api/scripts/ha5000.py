@@ -52,7 +52,7 @@ doc.append(NoEscape('\\begin{tikzpicture}[scale=0.9, sibling distance=1pt, level
 doc.append(NoEscape(' '.join(str(tree.pformat_latex_qtree()).split())))
 doc.append(NoEscape('\end{tikzpicture}'))
 unique_name = str(uuid.uuid4())
-doc.generate_pdf('api/structures/' + unique_name)
+doc.generate_pdf('structures/' + unique_name)
 location = 'structures/' + unique_name + '.pdf'
 destination = 'structures/' + unique_name + '.png'
 call(["convert", "-trim", "+repage", "-density", "96", "-quality", "85", location, destination])
