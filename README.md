@@ -1,6 +1,6 @@
 # Linguistic Syntax Tree Generator
 
-This app allows you to submit a sentence for analysis into a linguistic syntax tree representation. This project used GoDoRP as a project starter
+This app allows you to submit a sentence for analysis into a linguistic syntax tree representation.
 
 ## Features
 
